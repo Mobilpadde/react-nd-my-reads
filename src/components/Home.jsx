@@ -5,6 +5,8 @@ import * as BooksAPI from './../BooksAPI';
 
 import Shelf from './Shelf';
 
+import SideScroller from './scripts/SideScroller';
+
 const EMPTY_SHELVES = function () {
     return {
         currentlyReading: [],
@@ -17,6 +19,7 @@ class Home extends Component{
     state = {
         shelves: EMPTY_SHELVES(),
         maxPageCount: 0,
+        sideScroller: null,
     };
 
     componentDidMount() {
@@ -40,14 +43,16 @@ class Home extends Component{
             })
             .then(({ shelves, length }) => this.setState({
                 shelves,
-                maxPageCount: length
+                maxPageCount: length,
+                sideScroller: new SideScroller("list-book-content"),
             }))
             .catch(console.error);
     }
 
     componentWillUnmount() {
         this.setState({
-            shelves: EMPTY_SHELVES()
+            shelves: EMPTY_SHELVES(),
+            sideScroller: null,
         });
     }
 
@@ -69,7 +74,7 @@ class Home extends Component{
                     <h1>MyReads</h1>
                 </div>
 
-                <div className="list-books-content">
+                <div id="list-book-content" className="list-books-content">
                     {
                         Object.keys(this.state.shelves).map((shelf, index) => {
                             console.log(this.state.shelves[shelf], shelf);
