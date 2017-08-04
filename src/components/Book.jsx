@@ -2,11 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import ShelfChanger from './ShelfChanger';
+import PercentageViewer from './PercentageViewer';
 
 const Book = (props) => {
-    console.log(props.cover);
     return (
         <div className="book">
+            <PercentageViewer
+                percentage={props.percentage}
+                count={props.count}
+            />
+
             <div className="book-top" style={{
                 width: props.size.width,
             }}>
@@ -14,7 +19,11 @@ const Book = (props) => {
                     ...props.size,
                     backgroundImage: `url(${props.cover})`
                 }}></div>
-                <ShelfChanger />
+
+                <ShelfChanger
+                    shelves={props.shelves}
+                    changeShelf={props.changeShelf}
+                />
             </div>
 
             <div className="book-title">{props.title}</div>
@@ -25,9 +34,16 @@ const Book = (props) => {
 
 Book.propTypes = {
     size: PropTypes.object.isRequired,
+
     cover: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired
+    author: PropTypes.string.isRequired,
+
+    shelves: PropTypes.array.isRequired,
+    changeShelf: PropTypes.func.isRequired,
+
+    percentage: PropTypes.number,
+    count: PropTypes.number,
 };
 
 export default Book;

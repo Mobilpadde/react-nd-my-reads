@@ -15,25 +15,32 @@ const EMPTY_SHELVES = function () {
 
 class Home extends Component{
     state = {
-        shelves: EMPTY_SHELVES()
+        shelves: EMPTY_SHELVES(),
+        maxPageCount: 0,
     };
 
     componentDidMount() {
         BooksAPI.getAll()
             .then(books => {
+                console.log(books);
                 this.setState({
                     shelves: EMPTY_SHELVES()
                 });
 
                 let shelves = EMPTY_SHELVES();
+                let length = 0;
                 books.forEach(book => {
                     shelves[book.shelf].push(book);
+
+                    if(length < book.pageCount)
+                        length = book.pageCount;
                 });
 
-                return shelves;
+                return { shelves, length };
             })
-            .then(shelves => this.setState({
-                shelves
+            .then(({ shelves, length }) => this.setState({
+                shelves,
+                maxPageCount: length
             }))
             .catch(console.error);
     }
@@ -42,8 +49,17 @@ class Home extends Component{
         this.setState({
             shelves: EMPTY_SHELVES()
         });
+    }
 
-        console.log(this.state.shelves);
+    changeShelf(book, idx, shelf) {
+        this.setState(state => {
+            state.shelves[book.shelf].splice(idx, 1);
+
+            book.shelf = shelf;
+            state.shelves[shelf].push(book);
+
+            return state;
+        });
     }
 
     render() {
@@ -55,8 +71,18 @@ class Home extends Component{
 
                 <div className="list-books-content">
                     {
-                        Object.keys(this.state.shelves).map((shelf, index) =>
-                            <Shelf key={shelf} title={shelf} books={this.state.shelves[shelf]} />
+                        Object.keys(this.state.shelves).map((shelf, index) => {
+                            console.log(this.state.shelves[shelf], shelf);
+                            return (
+                            <Shelf
+                                key={shelf}
+                                maxCount={this.state.maxPageCount}
+                                title={shelf}
+                                shelves={Object.keys(this.state.shelves).filter(name => name !== shelf)}
+                                books={this.state.shelves[shelf]}
+                                changeShelf={this.changeShelf.bind(this)}
+                            />)
+                            }
                         )
                     }
                 </div>
