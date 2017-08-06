@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 
 import * as BooksAPI from './../BooksAPI';
 
@@ -7,17 +8,9 @@ import Shelf from './Shelf';
 
 import SideScroller from './scripts/SideScroller';
 
-const EMPTY_SHELVES = function () {
-    return {
-        currentlyReading: [],
-        wantToRead: [],
-        read: [],
-    }
-};
-
 class Home extends Component{
     state = {
-        shelves: EMPTY_SHELVES(),
+        shelves: this.props.shelves(),
         maxPageCount: 0,
         sideScroller: null,
     };
@@ -27,10 +20,10 @@ class Home extends Component{
             .then(books => {
                 console.log(books);
                 this.setState({
-                    shelves: EMPTY_SHELVES()
+                    shelves: this.props.shelves()
                 });
 
-                let shelves = EMPTY_SHELVES();
+                let shelves = this.props.shelves();
                 let length = 0;
                 books.forEach(book => {
                     shelves[book.shelf].push(book);
@@ -51,7 +44,7 @@ class Home extends Component{
 
     componentWillUnmount() {
         this.setState({
-            shelves: EMPTY_SHELVES(),
+            shelves: this.props.shelves(),
             sideScroller: null,
         });
     }
@@ -76,7 +69,7 @@ class Home extends Component{
 
                 <div id="list-book-content" className="list-books-content">
                     {
-                        Object.keys(this.state.shelves).map((shelf, index) => {
+                        Object.keys(this.state.shelves).map(shelf => {
                             console.log(this.state.shelves[shelf], shelf);
                             return (
                             <Shelf
@@ -99,5 +92,10 @@ class Home extends Component{
         );
     }
 }
+
+Home.propTypes = {
+    shelves: PropTypes.func.isRequired,
+};
+
 
 export default Home;

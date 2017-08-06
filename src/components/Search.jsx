@@ -1,32 +1,71 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 
-const Search = (props) => {
-    return (
-        <div className="search-books">
-            <div className="search-books-bar">
-                <Link className="close-search" to="/">Close</Link>
-                <div className="search-books-input-wrapper">
-                    {/*
-                  NOTES: The search from BooksAPI is limited to a particular set of search terms.
-                  You can find these search terms here:
-                  https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
+import * as BooksAPI from './../BooksAPI';
 
-                  However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
-                  you don't find a specific author or title. Every search is limited by search terms.
-                */}
-                    <input type="text" placeholder="Search by title or author"/>
+import Book from './Book';
 
+const WIDTH = 128;
+const HEIGHT = 193;
+
+class Search extends Component{
+    state = {
+        books: []
+    };
+
+    search(query, max) {
+        query = query.trim();
+
+        if(query.length > 0) {
+            BooksAPI.search(query, max)
+                .then(books => this.setState({
+                    books
+                }))
+                .catch(console.error);
+        }
+    }
+
+    render() {
+        return (
+            <div className="search-books blackness">
+                <div className="search-books-bar">
+                    <Link className="close-search" to="/">Close</Link>
+                    <div className="search-books-input-wrapper">
+                        <input id="search-bar" onChange={e => this.search(e.target.value || '', 2)} type="text" placeholder="Search by title or author"/>
+                    </div>
+                </div>
+                <div className="search-books-results">
+                    <ol className="books-grid">{this.state.books.length > 0 && this.state.books.map(book => {
+                        let authors = (book.authors || [null]).join(", ");
+
+                        return (
+                            <li key={`${book.title} -- ${authors}`}>
+                                <Book
+                                    size={{
+                                        width: WIDTH,
+                                        height: HEIGHT
+                                    }}
+                                    title={book.title}
+                                    author={authors}
+                                    cover={book.imageLinks.thumbnail}
+                                    shelves={Object.keys(this.props.shelves)}
+                                    changeShelf={to => this.props.changeShelf(book, null, to)}
+                                />
+                            </li>
+                        )})}
+                    </ol>
                 </div>
             </div>
-            <div className="search-books-results">
-                <ol className="books-grid"></ol>
-            </div>
-        </div>
-    );
-};
+        );
+    }
+}
 
-Search.propTypes = {};
+Book.propTypes = {
+    shelves: PropTypes.array.isRequired,
+    changeShelf: PropTypes.func.isRequired,
+
+    count: PropTypes.number,
+};
 
 export default Search;

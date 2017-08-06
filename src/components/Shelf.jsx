@@ -16,7 +16,7 @@ const Shelf = (props) => {
                 <ol className="books-grid">
                     {props.books.map((book, index) => {
                         return (
-                            <li key={book.title + book.authors[0] + index}>
+                            <li key={`${book.title} -- ${book.authors.join(", ")}`}>
                                 <Book
                                     percentage={(book.pageCount / props.maxCount) * 100}
                                     count={book.pageCount}
@@ -26,7 +26,7 @@ const Shelf = (props) => {
                                     }}
                                     title={book.title}
                                     subtitle={book.subtitle}
-                                    author={book.authors[0]}
+                                    author={book.authors.join(", ")}
                                     cover={book.imageLinks.thumbnail}
                                     shelves={props.shelves}
                                     changeShelf={to => props.changeShelf(book, index, to)}
