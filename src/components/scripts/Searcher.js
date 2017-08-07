@@ -1,25 +1,26 @@
 class Searcher{
-    constructor(id) {
-        const call = this._func(id);
-
+    constructor() {
+        const call = this._func();
         window.addEventListener("keyup", call);
     }
 
-    destroy(id) {
-        const call = this._func(id);
-
+    destroy() {
+        const call = this._func();
         window.removeEventListener("keyup", call);
     }
 
-    _func(id) {
-        const elm = document.getElementById(id);
-
+    _func() {
         return e => {
-            console.log(e.key);
-            if(e.key.length === 1){
-                if(window.location.hash.indexOf("search") < 0) {
-                    window.location.hash = "/search";
-                }
+            if(
+                [13, 32].indexOf(e.keyCode) > -1 &&
+                window.location.hash.indexOf("search") < 0
+            ){
+                window.location.hash = "/search";
+            } else if (
+                [27].indexOf(e.keyCode) > -1 &&
+                window.location.hash.indexOf("search") > -1
+            ) {
+                window.location.hash = "/";
             }
         }
     }

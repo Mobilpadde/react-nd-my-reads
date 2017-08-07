@@ -14,11 +14,16 @@ class Search extends Component{
         books: []
     };
 
+    componentDidMount() {
+        const elm = document.getElementById("search-bar");
+        elm.focus();
+    }
+
     search(query, max) {
         query = query.trim();
 
         if(query.length > 0) {
-            BooksAPI.search(query, max)
+            BooksAPI.search(query, max || 20)
                 .then(books => this.setState({
                     books
                 }))
@@ -32,7 +37,7 @@ class Search extends Component{
                 <div className="search-books-bar">
                     <Link className="close-search" to="/">Close</Link>
                     <div className="search-books-input-wrapper">
-                        <input id="search-bar" onChange={e => this.search(e.target.value || '', 2)} type="text" placeholder="Search by title or author"/>
+                        <input id="search-bar" onChange={e => this.search(e.target.value || '')} type="text" placeholder="Search by title or author"/>
                     </div>
                 </div>
                 <div className="search-books-results">
