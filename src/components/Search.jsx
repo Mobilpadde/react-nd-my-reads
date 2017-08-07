@@ -17,6 +17,8 @@ class Search extends Component{
     componentDidMount() {
         const elm = document.getElementById("search-bar");
         elm.focus();
+
+        document.getElementsByClassName("blackness")[0].addEventListener("click", _ => window.location.hash = "/")
     }
 
     search(query, max) {
