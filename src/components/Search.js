@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import PropTypes from 'prop-types';
 
 import * as BooksAPI from './../BooksAPI';
@@ -14,6 +14,19 @@ class Search extends Component{
         books: []
     };
 
+    componentWillMount() {
+        const { hash } = window.location;
+        const hashes = hash.split('/');
+
+        if(hashes.length > 2) {
+            this.setState({
+                query: hashes[2],
+            });
+
+            this.search(hashes[2]);
+        }
+    }
+
     componentDidMount() {
         const elm = document.getElementById("search-bar");
         elm.focus();
@@ -27,22 +40,36 @@ class Search extends Component{
         if(query.length > 0) {
             BooksAPI.search(query, max || 20)
                 .then(books => this.setState({
-                    books
+                    books,
+                    query
                 }))
                 .catch(console.error);
         }
     }
 
+    keyUp(code) {
+        if(code === 13) {
+            window.location.hash = `/search/${this.state.query}`;
+        }
+    }
+
     render() {
         return (
-            <div className="search-books blackness">
+            <div className="search-books">
                 <div className="search-books-bar">
                     <Link className="close-search" to="/">Close</Link>
                     <div className="search-books-input-wrapper">
-                        <input id="search-bar" onChange={e => this.search(e.target.value || '')} type="text" placeholder="Search by title or author"/>
+                        <input
+                            id="search-bar"
+                            value={this.state.query}
+                            onKeyUp={e => this.keyUp(e.keyCode)}
+                            onChange={e => this.search(e.target.value || '')}
+                            type="text"
+                            placeholder="Search by title or author"
+                        />
                     </div>
                 </div>
-                <div className="search-books-results">
+                <div className="search-books-results blackness">
                     <ol className="books-grid">{this.state.books.length > 0 && this.state.books.map(book => {
                         let authors = (book.authors || [null]).join(", ");
 

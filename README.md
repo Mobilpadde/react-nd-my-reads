@@ -12,10 +12,20 @@ When you start the app, you'll see a simple page. On this magnificent page, you 
 
 Like almost every person, whom ever read a book, they'll read another book, and would like to look for other books, to allow into the Kingdom of Books. This is where the Peasant-land of Books come in, or  **Search**-page as it's known in the common tounge.
 
-To get to this bea-u-tiful page, press either the `spacebar`, the `enter`-key or the plus-sign in the bottom right corner.
+To get to this bea-u-tiful page, press either the `spacebar`, the `enter`-key or the plus-sign in the bottom right corner. After doing this, you can hitting the keys on your board of keys! Easy as that!
 
 ## Getting Back
 
-Well, so far so good. But how do you come back to the Kingdom of Books? For this, I've cooked up a simple shortcut, which is, as you've already guessed, `ESC`, or so as the rest of those scary folks.
+Well, so far so good. But how do you come back to the Kingdom of Books? For this, I've cooked up a simple shortcut, which is, as you've already guessed, `ESC`, or as the rest of those scary folks, simply click the blackness.
 
 So long, and thanks for all the fish.
+
+## Changes
+
+ * 8/8/17:  
+    * The search-bar won't close when clicking on it. 
+    * Press enter to save push the search, to the url. (***NOT FULLY FUNCTIONING***)
+
+## License
+
+This is licensed under the [**IDGAF**](https://tldrlegal.com/license/idgaf-v1.0)-license.
