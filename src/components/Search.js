@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, Redirect } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 
 import * as BooksAPI from './../BooksAPI';
@@ -34,61 +34,69 @@ class Search extends Component{
         document.getElementsByClassName("blackness")[0].addEventListener("click", _ => window.location.hash = "/")
     }
 
-    search(query, max) {
-        query = query.trim();
+    search(query) {
+       if(query.length > 0) {
+            BooksAPI.search(query, 20)
+                .then(books => {
+                    books = [...new Set(books)];
 
-        if(query.length > 0) {
-            BooksAPI.search(query, max || 20)
-                .then(books => this.setState({
-                    books,
-                    query
-                }))
+                    this.setState({
+                        books,
+                        query
+                    })
+                })
                 .catch(console.error);
         }
     }
 
-    keyUp(code) {
+    keyUp(e) {
+        const code = e.keyCode;
+
         if(code === 13) {
-            window.location.hash = `/search/${this.state.query}`;
+            const query = e.target.value.trim();
+
+            this.search(query);
+            window.location.hash = `/search/${query}`;
         }
     }
 
     render() {
         return (
-            <div className="search-books">
-                <div className="search-books-bar">
-                    <Link className="close-search" to="/">Close</Link>
-                    <div className="search-books-input-wrapper">
-                        <input
-                            id="search-bar"
-                            value={this.state.query}
-                            onKeyUp={e => this.keyUp(e.keyCode)}
-                            onChange={e => this.search(e.target.value || '')}
-                            type="text"
-                            placeholder="Search by title or author"
-                        />
+            <div>
+                <div className="blackness"></div>
+                <div className="search-books">
+                    <div className="search-books-bar">
+                        <Link className="close-search" to="/">Close</Link>
+                        <div className="search-books-input-wrapper">
+                            <input
+                                id="search-bar"
+                                onKeyUp={this.keyUp.bind(this)}
+                                type="text"
+                                placeholder="Search by title or author"
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="search-books-results blackness">
-                    <ol className="books-grid">{this.state.books.length > 0 && this.state.books.map(book => {
-                        let authors = (book.authors || [null]).join(", ");
+                    <div className="search-books-results">
+                        <ol className="books-grid">{this.state.books.length > 0 && this.state.books.map(book => {
+                            let authors = (book.authors || [null]).join(", ");
 
-                        return (
-                            <li key={`${book.title} -- ${authors}`}>
-                                <Book
-                                    size={{
-                                        width: WIDTH,
-                                        height: HEIGHT
-                                    }}
-                                    title={book.title}
-                                    author={authors}
-                                    cover={book.imageLinks.thumbnail}
-                                    shelves={Object.keys(this.props.shelves)}
-                                    changeShelf={to => this.props.changeShelf(book, null, to)}
-                                />
-                            </li>
-                        )})}
-                    </ol>
+                            return (
+                                <li key={`${book.title} -- ${authors}`}>
+                                    <Book
+                                        size={{
+                                            width: WIDTH,
+                                            height: HEIGHT
+                                        }}
+                                        title={book.title}
+                                        author={authors}
+                                        cover={book.imageLinks.thumbnail}
+                                        shelves={Object.keys(this.props.shelves)}
+                                        changeShelf={to => this.props.changeShelf(book, null, to)}
+                                    />
+                                </li>
+                            )})}
+                        </ol>
+                    </div>
                 </div>
             </div>
         );

@@ -6,8 +6,8 @@ import './styles/ShelfChanger.css';
 const ShelfChanger = (props) => {
     return (
         <div className="book-shelf-changer">
-            <select onChange={e => props.changeShelf(e.target.value)}>
-                <option value="none" disabled selected>Move to...</option>
+            <select onChange={e => props.changeShelf(e.target.value)} defaultValue="none">
+                <option value="none" disabled>Move to...</option>
                 {props.shelves.map(shelf => (
                     <option key={shelf} value={shelf}>{shelf}</option>
                 ))}

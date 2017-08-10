@@ -57,21 +57,13 @@ class BooksApp extends React.Component {
         this.setState(state => {
             if(idx !== null && idx > -1) {
                 state.shelves[book.shelf].splice(idx, 1);
-
-                book.shelf = shelf;
-                state.shelves[shelf].push(book);
-
-                return state;
-            } else {
-                return BooksAPI.update(book, shelf)
-                    .then(_ => {
-                        book.shelf = shelf;
-                        state.shelves[shelf].push(book);
-
-                        return state;
-                    })
-                    .catch(console.error);
             }
+
+            book.shelf = shelf;
+            state.shelves[shelf].push(book);
+
+            return BooksAPI.update(book, shelf)
+                .catch(console.error);
         });
     }
 

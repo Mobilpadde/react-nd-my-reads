@@ -141,6 +141,12 @@ body, #root, .app {
 
 .search-books-results {
     padding: 80px 10px 20px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
 }
 
 /* books grid */
