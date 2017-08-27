@@ -38,13 +38,20 @@ class Search extends Component{
        if(query.length > 0) {
             BooksAPI.search(query, 20)
                 .then(books => {
-                    books = [...new Set(books)];
+                    return books.map(book => {
+                        Object.values(this.props.shelves).map(shelf => shelf.map(homeBook => {
+                            if (book.id === homeBook.id) {
+                                book['added'] = true;
+                            }
+                        }));
 
-                    this.setState({
-                        books,
-                        query
-                    })
+                        return book;
+                    });
                 })
+                .then(books => this.setState({
+                    books,
+                    query
+                }))
                 .catch(console.error);
         }
     }
@@ -77,25 +84,26 @@ class Search extends Component{
                         </div>
                     </div>
                     <div className="search-books-results">
-                        <ol className="books-grid">{this.state.books.length > 0 && this.state.books.map(book => {
-                            let authors = (book.authors || [null]).join(", ");
+                        <ol className="books-grid">{ this.state.books.map(book => {
+                                const authors = (book.authors || ['unknown']).join(", ");
 
-                            return (
-                                <li key={`${book.title} -- ${authors}`}>
-                                    <Book
-                                        size={{
-                                            width: WIDTH,
-                                            height: HEIGHT
-                                        }}
-                                        title={book.title}
-                                        author={authors}
-                                        cover={book.imageLinks.thumbnail}
-                                        shelves={Object.keys(this.props.shelves)}
-                                        changeShelf={to => this.props.changeShelf(book, null, to)}
-                                    />
-                                </li>
-                            )})}
-                        </ol>
+                                return (
+                                    <li key={`${book.title} -- ${authors}`}>
+                                        <Book
+                                            size={{
+                                                width: WIDTH,
+                                                height: HEIGHT
+                                            }}
+                                            added={book.added}
+                                            title={book.title}
+                                            author={authors}
+                                            cover={book.imageLinks.thumbnail}
+                                            shelves={Object.keys(this.props.shelves)}
+                                            changeShelf={to => this.props.changeShelf(book, null, to)}
+                                        />
+                                    </li>
+                                )})
+                        }</ol>
                     </div>
                 </div>
             </div>

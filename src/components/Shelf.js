@@ -16,10 +16,11 @@ const Shelf = (props) => {
                 <ol className="books-grid">
                     {props.books.map((book, index) => {
                         return (
-                            <li key={`${book.title} -- ${book.authors.join(", ")}`}>
+                            <li key={`${book.title}--${book.authers && book.authors.join(", ")}--${Math.random().toString().slice(5, 10)}`}>
                                 <Book
                                     percentage={(book.pageCount / props.maxCount) * 100}
                                     count={book.pageCount}
+                                    added={book.added}
                                     size={{
                                         width: WIDTH * mult,
                                         height: HEIGHT * mult
