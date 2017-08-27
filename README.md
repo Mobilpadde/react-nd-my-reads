@@ -22,7 +22,10 @@ So long, and thanks for all the fish.
 
 ## Changes
 
- * 8/8/17:  
+ * 08/27/17
+    * Make it unpossible to add existing books from search-results.
+
+ * 08/08/17:  
     * The search-bar won't close when clicking on it. 
     * Press enter to save push the search, to the url. (***NOT FULLY FUNCTIONING***)
 
