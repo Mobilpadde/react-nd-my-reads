@@ -22,8 +22,12 @@ So long, and thanks for all the fish.
 
 ## Changes
 
+ * 08/28/17
+    * Search by pressing any button
+    * Set state properly
+
  * 08/27/17
-    * Make it unpossible to add existing books from search-results.
+    * Make it impossible to add existing books from search-results.
 
  * 08/08/17:  
     * The search-bar won't close when clicking on it. 

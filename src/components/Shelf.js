@@ -7,7 +7,7 @@ const WIDTH = 128;
 const HEIGHT = 193;
 
 const Shelf = (props) => {
-    let mult = props.multiplier || 1;
+    const mult = props.multiplier || 1;
 
     return (
         <div className="bookshelf">
@@ -16,7 +16,7 @@ const Shelf = (props) => {
                 <ol className="books-grid">
                     {props.books.map((book, index) => {
                         return (
-                            <li key={`${book.title}--${book.authers && book.authors.join(", ")}--${Math.random().toString().slice(5, 10)}`}>
+                            <li key={`${book.title}--${book.authors && book.authors.join(", ")}--${Math.random().toString().slice(5, 10)}`}>
                                 <Book
                                     percentage={(book.pageCount / props.maxCount) * 100}
                                     count={book.pageCount}

@@ -28,14 +28,15 @@ class BooksApp extends React.Component {
         BooksAPI.getAll()
             .then(books => {
                 let length = 0;
+                let shelves = BooksApp.empty();
                 books.forEach(book => {
-                    this.state.shelves[book.shelf].push(book);
+                    shelves[book.shelf].push(book);
 
                     if(length < book.pageCount)
                         length = book.pageCount;
                 });
 
-                return { shelves: this.state.shelves, length };
+                return { shelves, length };
             })
             .then(({ shelves, length }) => this.setState({
                 shelves,
@@ -54,17 +55,21 @@ class BooksApp extends React.Component {
     }
 
     changeShelf(book, idx, shelf) {
-        this.setState(state => {
-            if(idx !== null && idx > -1) {
-                state.shelves[book.shelf].splice(idx, 1);
-            }
+        const shelves = Object.assign({}, this.state.shelves);
 
-            book.shelf = shelf;
-            state.shelves[shelf].push(book);
+        if(idx !== null && idx > -1) {
+            shelves[book.shelf].splice(idx, 1);
+        }
 
-            return BooksAPI.update(book, shelf)
-                .catch(console.error);
+        book.shelf = shelf;
+        shelves[shelf].push(book);
+
+        this.setState({
+            shelves,
         });
+
+        return BooksAPI.update(book, shelf)
+            .catch(console.error);
     }
 
     render() {

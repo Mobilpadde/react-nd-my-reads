@@ -57,14 +57,10 @@ class Search extends Component{
     }
 
     keyUp(e) {
-        const code = e.keyCode;
+        const query = e.target.value.trim();
 
-        if(code === 13) {
-            const query = e.target.value.trim();
-
-            this.search(query);
-            window.location.hash = `/search/${query}`;
-        }
+        this.search(query);
+        window.location.hash = `/search/${query}`;
     }
 
     render() {
@@ -77,7 +73,7 @@ class Search extends Component{
                         <div className="search-books-input-wrapper">
                             <input
                                 id="search-bar"
-                                onKeyUp={this.keyUp.bind(this)}
+                                onChange={this.keyUp.bind(this)}
                                 type="text"
                                 placeholder="Search by title or author"
                             />
