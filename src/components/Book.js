@@ -5,16 +5,6 @@ import ShelfChanger from './ShelfChanger';
 import PercentageViewer from './PercentageViewer';
 
 class Book extends Component{
-    state = {
-        added: this.props.added || false
-    };
-
-    falsify() {
-        this.setState(old => {
-            old.added = true;
-        });
-    }
-
     render() {
         return (
             <div className="book">
@@ -29,13 +19,12 @@ class Book extends Component{
                     <div className="book-cover" style={{
                         ...this.props.size,
                         backgroundImage: `url(${this.props.cover})`
-                    }}></div>
+                    }}/>
 
-                    {this.state.added === false && <ShelfChanger
+                    <ShelfChanger
                         shelves={this.props.shelves}
-                        changeShelf={this.props.changeShelf}
-                        falsify={this.falsify.bind(this)}
-                    />}
+                        changeShelf={shelf => this.props.changeShelf(shelf)}
+                    />
                 </div>
 
                 <div className="book-title">{this.props.title}</div>
@@ -43,7 +32,7 @@ class Book extends Component{
             </div>
         );
     }
-};
+}
 
 Book.propTypes = {
     size: PropTypes.object.isRequired,

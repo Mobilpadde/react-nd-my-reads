@@ -57,8 +57,23 @@ class BooksApp extends React.Component {
     changeShelf(book, idx, shelf) {
         const shelves = Object.assign({}, this.state.shelves);
 
-        if(idx !== null && idx > -1) {
-            shelves[book.shelf].splice(idx, 1);
+        for (let key of Object.keys(shelves)) {
+            let index = 0;
+            let found = false;
+
+            for (let b of shelves[key]) {
+                if (b.id === book.id) {
+                    shelves[key].splice(index, 1);
+                    found = true;
+                    break;
+                }
+
+                if (found) {
+                    break;
+                }
+
+                index++;
+            }
         }
 
         book.shelf = shelf;

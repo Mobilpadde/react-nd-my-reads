@@ -22,16 +22,22 @@ So long, and thanks for all the fish.
 
 ## Changes
 
+ * 08/30/17
+   * Books move correctly from the search-page
+
+ * 08/29/17
+   * Allow books to be rearranged from the search-page
+
  * 08/28/17
-    * Search by pressing any button
-    * Set state properly
+   * Search by pressing any button
+   * Set state properly
 
  * 08/27/17
-    * Make it impossible to add existing books from search-results.
+   * Make it impossible to add existing books from search-results.
 
  * 08/08/17:  
-    * The search-bar won't close when clicking on it. 
-    * Press enter to save push the search, to the url. (***NOT FULLY FUNCTIONING***)
+   * The search-bar won't close when clicking on it. 
+   * Press enter to save push the search, to the url. (***NOT FULLY FUNCTIONING***)
 
 ## License
 

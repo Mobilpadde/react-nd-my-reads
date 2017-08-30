@@ -41,7 +41,7 @@ class Search extends Component{
                     return books.map(book => {
                         Object.values(this.props.shelves).map(shelf => shelf.map(homeBook => {
                             if (book.id === homeBook.id) {
-                                book['added'] = true;
+                                book = homeBook;
                             }
                         }));
 
@@ -66,7 +66,7 @@ class Search extends Component{
     render() {
         return (
             <div>
-                <div className="blackness"></div>
+                <div className="blackness" />
                 <div className="search-books">
                     <div className="search-books-bar">
                         <Link className="close-search" to="/">Close</Link>
@@ -80,7 +80,7 @@ class Search extends Component{
                         </div>
                     </div>
                     <div className="search-books-results">
-                        <ol className="books-grid">{ this.state.books.map(book => {
+                        <ol className="books-grid">{ this.state.books.map((book, index) => {
                                 const authors = (book.authors || ['unknown']).join(", ");
 
                                 return (
@@ -95,7 +95,7 @@ class Search extends Component{
                                             author={authors}
                                             cover={book.imageLinks.thumbnail}
                                             shelves={Object.keys(this.props.shelves)}
-                                            changeShelf={to => this.props.changeShelf(book, null, to)}
+                                            changeShelf={to => this.props.changeShelf(book, index, to)}
                                         />
                                     </li>
                                 )})
