@@ -22,6 +22,7 @@ class Book extends Component{
                     }}/>
 
                     <ShelfChanger
+                        shelf={this.props.shelf}
                         shelves={this.props.shelves}
                         changeShelf={shelf => this.props.changeShelf(shelf)}
                     />
@@ -42,6 +43,7 @@ Book.propTypes = {
     title: PropTypes.string.isRequired,
     author: PropTypes.string.isRequired,
 
+    shelf: PropTypes.string.isRequired,
     shelves: PropTypes.array.isRequired,
     changeShelf: PropTypes.func.isRequired,
 

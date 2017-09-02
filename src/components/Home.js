@@ -38,7 +38,7 @@ class Home extends Component{
                                 key={shelf}
                                 maxCount={this.props.maxPageCount}
                                 title={shelf}
-                                shelves={Object.keys(this.props.shelves).filter(name => name !== shelf)}
+                                shelves={Object.keys(this.props.shelves)}
                                 books={this.props.shelves[shelf]}
                                 changeShelf={this.props.changeShelf}
                             />)

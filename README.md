@@ -22,15 +22,18 @@ So long, and thanks for all the fish.
 
 ## Changes
 
+ * 09/02/17
+    * Movement is now consistent.
+
  * 08/30/17
-   * Books move correctly from the search-page
+   * Books move correctly from the search-page.
 
  * 08/29/17
-   * Allow books to be rearranged from the search-page
+   * Allow books to be rearranged from the search-page.
 
  * 08/28/17
    * Search by pressing any button
-   * Set state properly
+   * Set state properly.
 
  * 08/27/17
    * Make it impossible to add existing books from search-results.

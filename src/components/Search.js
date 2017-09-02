@@ -14,19 +14,6 @@ class Search extends Component{
         books: []
     };
 
-    componentWillMount() {
-        const { hash } = window.location;
-        const hashes = hash.split('/');
-
-        if(hashes.length > 2) {
-            this.setState({
-                query: hashes[2],
-            });
-
-            this.search(hashes[2]);
-        }
-    }
-
     componentDidMount() {
         const elm = document.getElementById("search-bar");
         elm.focus();
@@ -60,7 +47,6 @@ class Search extends Component{
         const query = e.target.value.trim();
 
         this.search(query);
-        window.location.hash = `/search/${query}`;
     }
 
     render() {
@@ -90,6 +76,7 @@ class Search extends Component{
                                                 width: WIDTH,
                                                 height: HEIGHT
                                             }}
+                                            shelf={book.shelf}
                                             added={book.added}
                                             title={book.title}
                                             author={authors}

@@ -25,6 +25,7 @@ const Shelf = (props) => {
                                         width: WIDTH * mult,
                                         height: HEIGHT * mult
                                     }}
+                                    shelf={book.shelf}
                                     title={book.title}
                                     subtitle={book.subtitle}
                                     author={book.authors.join(", ")}

@@ -58,22 +58,7 @@ class BooksApp extends React.Component {
         const shelves = Object.assign({}, this.state.shelves);
 
         for (let key of Object.keys(shelves)) {
-            let index = 0;
-            let found = false;
-
-            for (let b of shelves[key]) {
-                if (b.id === book.id) {
-                    shelves[key].splice(index, 1);
-                    found = true;
-                    break;
-                }
-
-                if (found) {
-                    break;
-                }
-
-                index++;
-            }
+            shelves[key] = shelves[key].filter(b => b.id !== book.id);
         }
 
         book.shelf = shelf;
